@@ -4,21 +4,15 @@ import styled from 'styled-components/native/dist/styled-components.native.esm'
 import * as gs from './globalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import prompt from 'react-native-prompt-android';
-import db from '../db/db'
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as playerActions from './../store/actions/players';
 
-export default class ConfigPlayersScreen extends Component {
+class ConfigPlayersScreen extends Component {
 
     static navigationOptions = {
         header: null,
     };
-
-    state = {
-        players: []
-    };
-
-    componentDidMount() {
-        db.setActualScreen('ConfigPlayersScreen');
-    }
 
     render() {
         return (
@@ -29,14 +23,14 @@ export default class ConfigPlayersScreen extends Component {
                     </InstructionText>
                     <gs.FlexWrapCenter>
 
-                        {this.state.players.map((player) =>
+                        {this.props.players.map((player) =>
 
                             <gs.PlayerBox key={player.index}>
                                 <Icon name={"user"} size={28} color={"#999"}/>
                                 <gs.Text color={"black"} fs={14}>{player.name}</gs.Text>
                             </gs.PlayerBox>
                         )}
-                        {this.state.players.length < 6 &&
+                        {this.props.players.length < 6 &&
                         <TouchableOpacity onPress={this.addNewPlayer}>
                             <gs.PlayerBox>
                                 <Icon name={"plus"} size={28} color={"#999"}/>
@@ -47,13 +41,12 @@ export default class ConfigPlayersScreen extends Component {
                     </gs.FlexWrapCenter>
 
                 </ScrollView>
-                <gs.Button disabled={this.state.players.length < 3} onPress={this.configureAndStartGame}>
+                <gs.Button disabled={this.props.players.length < 3} onPress={this.configureAndStartGame}>
                     <gs.ButtonText color={"#050"}>Iniciar Jogo</gs.ButtonText>
                 </gs.Button>
             </gs.MainContainer>
         );
     }
-
 
     addNewPlayer = async () => {
         try {
@@ -69,7 +62,7 @@ export default class ConfigPlayersScreen extends Component {
                         type: 'plain-text',
                         cancelable: false,
                         defaultValue: '',
-                        placeholder: 'Nome do Jogador'
+                        placeholder: 'Nome do Jogador',
                     }
                 );
 
@@ -82,15 +75,14 @@ export default class ConfigPlayersScreen extends Component {
                     vazas   : 0,
                     score   : 0,
                 };
-                player.index = this.state.players.length + 1;
+                player.index = this.props.players.length + 1;
                 if (name.toUpperCase().indexOf('KLEY') > -1)  {
                     name = 'Bixona';
                 }
-                player.name = name;
+                player.name = capitalizeFirstLetter(name);
 
-                const {players} = this.state;
-                players.push(player);
-                this.setState({players});
+                //Redux
+                this.props.addNewPlayer(player);
             }
 
         } catch (e) {
@@ -99,12 +91,27 @@ export default class ConfigPlayersScreen extends Component {
     };
 
     configureAndStartGame = () => {
-        let {players} = this.state;
-        db.savePlayers(players);
-        this.props.navigation.navigate('PalpitesScreen', {players, rodada: 1});
+        this.props.navigation.navigate('PalpitesScreen');
     };
 
 }
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+const mapStateToProps = (state) => {
+    return {
+        players: state.players
+    }
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators(playerActions, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigPlayersScreen)
+
 
 const InstructionText = styled.Text`
     color: white;
