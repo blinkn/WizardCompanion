@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {Dimensions, ScrollView, StatusBar, TouchableOpacity, View} from 'react-native';
-import {MainContainer, Text, Card, Group, Button} from './globalStyles'
+import {Button, Card, Group, MainContainer, Text} from './globalStyles'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel from "react-native-snap-carousel";
-import styled from "styled-components/native";
 import * as GameActions from '../store/actions/GameActions';
 import {connect} from "react-redux";
-import store from '../store/store';
 import ScoreBoardScreen from './ScoreBoardScreen';
 
 class PalpitesScreen extends Component {
@@ -29,7 +27,7 @@ class PalpitesScreen extends Component {
     }
 
     goToGameScreen = () => {
-        this.props.navigation.navigate('GameScreen', {players, rodada});
+        this.props.navigation.navigate('GameScreen');
     };
 
     addPalpite = (rodada, player, amount) => {
@@ -82,9 +80,6 @@ class PalpitesScreen extends Component {
                     </ScrollView>
                     <Button onPress={() => this.goToGameScreen()}>
                         <Text color="#050" bold fs={14}>PROSSEGUIR</Text>
-                    </Button>
-                    <Button onPress={() => console.log(store.getState())}>
-                        <Text color="#050" bold fs={14}>STORE</Text>
                     </Button>
                 </MainContainer>
             </>

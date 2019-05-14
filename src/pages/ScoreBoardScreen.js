@@ -6,37 +6,38 @@ import styled from "styled-components/native";
 
 class ScoreBoardScreen extends Component {
     render() {
-        const {game: {players}} = this.props;
-        const containerWidth = (Dimensions.get('window').width - 32) / players.length; //32 = 16 de padding do MainContainer e +16 do RodadaContainer
+        const {game: {players, rodadaDetails}} = this.props;
+        const containerWidth = (Dimensions.get('window').width - 40) / players.length;
         return (
             <ScrollView>
+                <Text fs={24}>Pontuação</Text>
                 <ScoreView>
                     <>
                         <Group>
                             <RodadaContainer/>
                             {
                                 players.map((player) =>
-                                    <PlayerContainer width={containerWidth} key={player.index}>
+                                    <PlayerContainerHeader width={containerWidth} key={player.index}>
                                         <Text center fs={12}>{player.name}</Text>
-                                    </PlayerContainer>
+                                    </PlayerContainerHeader>
                                 )
                             }
                         </Group>
                         {
-                            // this.state.rodadaDetails.map(rodada =>
-                            //     <Group key={rodada.rodada}>
-                            //         <RodadaContainer>
-                            //             <Text center>{rodada.rodada}</Text>
-                            //         </RodadaContainer>
-                            //         {
-                            //             rodada.details.map(detail =>
-                            //                 <PlayerContainer width={containerWidth} key={detail.index}>
-                            //                     <Text center fs={12}>{detail.score} | {detail.palpite}</Text>
-                            //                 </PlayerContainer>
-                            //             )
-                            //         }
-                            //     </Group>
-                            // )
+                            rodadaDetails.map(rodadaDetail =>
+                                <Group key={rodadaDetail.rodada}>
+                                    <RodadaContainer>
+                                        <Text center>{rodadaDetail.rodada}</Text>
+                                    </RodadaContainer>
+                                    {
+                                        rodadaDetail.details.map(detail =>
+                                            <PlayerContainer width={containerWidth} key={detail.index}>
+                                                <Text center fs={12}>{detail.score} | {detail.palpite}</Text>
+                                            </PlayerContainer>
+                                        )
+                                    }
+                                </Group>
+                            )
                         }
                     </>
                 </ScoreView>
@@ -45,22 +46,16 @@ class ScoreBoardScreen extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        game: state
-    };
-}
-
-export default connect(
-    mapStateToProps,
-)(ScoreBoardScreen);
-
-
+const mapStateToProps = (state) => ({
+    game: state
+});
+export default connect(mapStateToProps)(ScoreBoardScreen);
 
 const ScoreView = styled.View`
     background-color: white;
     border-radius: 4px;
     overflow: hidden;
+    padding: 4px;
 `;
 
 const RodadaContainer = styled.View`
@@ -68,8 +63,13 @@ const RodadaContainer = styled.View`
     min-height: 16px;
 `;
 
+const PlayerContainerHeader = styled.View`
+    width: ${props => props.width || 50};
+    border-bottom-width: 1px;
+    overflow: hidden;
+`;
+
 const PlayerContainer = styled.View`
     width: ${props => props.width || 50};
-    border: 1px solid black;
     overflow: hidden;
 `;

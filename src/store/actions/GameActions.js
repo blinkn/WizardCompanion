@@ -17,3 +17,9 @@ export function addRodada() {
         type: 'ADD_RODADA',
     }
 }
+
+export function finalizarRodada() {
+    return {
+        type: 'FINALIZAR_RODADA'
+    };
+}
