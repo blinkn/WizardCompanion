@@ -4,10 +4,3 @@ export function addNewPlayer(player) {
         player
     }
 }
-
-export function setPlayer(players) {
-    return {
-        type: 'SET_PLAYERS',
-        players
-    }
-}

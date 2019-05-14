@@ -1,12 +1,4 @@
-import {createStore, combineReducers} from 'redux';
-import {players} from './reducers/players';
-import {rodada} from './reducers/rodada';
+import {createStore} from 'redux';
+import {gameReducer} from "./reducers/GameReducer";
 
-const reducers = combineReducers({
-    players,
-    rodada
-});
-
-console.log('reducers', reducers);
-
-export default createStore(reducers);
+export default createStore(gameReducer);
