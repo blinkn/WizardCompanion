@@ -4,7 +4,7 @@ import {createAppContainer, createStackNavigator} from 'react-navigation';
 import {Provider} from 'react-redux';
 import store from './src/store/store'
 import ExitHeaderButton from './src/components/ExitHeaderButton';
-import {routes} from "./src/pages/routes";
+import {routes} from "./src/routes/routes";
 
 
 const MainNavigator = createStackNavigator(
