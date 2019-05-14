@@ -1,45 +1,85 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
-import * as gs from './globalStyles';
+import {StyleSheet, ActivityIndicator, Modal, View, TouchableHighlight} from 'react-native';
+import {MainContainer, Button, ButtonText, Group, Text} from "./globalStyles";
 import styled from 'styled-components/native/dist/styled-components.native.esm'
 import db from "../db/db";
+import * as GameActions from "../store/actions/GameActions";
+import {connect} from "react-redux";
 
 
-export default class InicialScreen extends Component {
-
+class InicialScreen extends Component {
     static navigationOptions = {
         // headerTitle instead of title
         header: null,
     };
 
+    state = {
+        loadingState: false
+    };
+
+    setModalVisible(visible) {
+        this.setState({loadingState: visible});
+    }
+
     render() {
         return (
-            <gs.MainContainer>
-
+            <MainContainer>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.loadingState}>
+                    <AtividadeContainer>
+                        <ActivityIndicator color="white" size="large"/>
+                        <Text>Carregando Jogo Anterior...</Text>
+                    </AtividadeContainer>
+                </Modal>
                 <Titulo style={styles.shadow}>
                     Wizard Companion
                 </Titulo>
-
-                <gs.Group vertical>
-                    <gs.Button
+                <Group vertical>
+                    <Button
                         onPress={() => this.createNewGame()}>
-                        <gs.ButtonText color={"#050"}>Criar Novo Jogo</gs.ButtonText>
-                    </gs.Button>
-                    <gs.Button
-                        onPress={() => console.log('pressed')}>
-                        <gs.ButtonText color={"blue"}>Continuar Jogo</gs.ButtonText>
-                    </gs.Button>
-                </gs.Group>
-            </gs.MainContainer>
+                        <ButtonText color="#050">Criar Novo Jogo</ButtonText>
+                    </Button>
+                    <Button
+                        onPress={() => this.continueGame()}>
+                            <ButtonText color="blue">Continuar Jogo</ButtonText>
+                    </Button>
+                </Group>
+            </MainContainer>
         );
-
     }
 
-    createNewGame = async () => {
-        await db.createNewGame(true);
+    createNewGame = () => {
+        db.clearDb();
         this.props.navigation.navigate('ConfigPlayersScreen')
-    }
+    };
+
+    continueGame = async () => {
+        let loadingState = true;
+        this.setState({loadingState});
+        const state = await db.loadState();
+        if(state === undefined) return;
+
+        this.props.dispatch(GameActions.setState(state));
+        let screen = 'ConfigPlayersScreen';
+        switch(state.etapa) {
+            case 'Palpite':
+                screen = 'PalpitesScreen';
+                break;
+            case 'Game':
+                screen = 'GameScreen';
+                break;
+        }
+
+        loadingState = false;
+        this.setState({loadingState});
+        this.props.navigation.navigate(screen);
+    };
 }
+
+export default connect()(InicialScreen);
+
 
 const styles = StyleSheet.create({
     shadow: {
@@ -57,4 +97,12 @@ const Titulo = styled.Text`
     margin: 100px 0;
     align-self: center;
     flex: 1;
+`;
+
+
+const AtividadeContainer = styled.View`
+  flex: 1;
+  background-color: rgba(0,0,0,.8);
+  align-items: center;
+  justify-content: center;
 `;

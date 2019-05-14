@@ -1,22 +1,25 @@
 import React, {Component} from 'react';
 import {StatusBar} from 'react-native';
-import InicialScreen from './src/pages/InicialScreen';
-import ConfigPlayersScreen from './src/pages/ConfigPlayersScreen';
-import PalpitesScreen from './src/pages/PalpitesScreen';
-import GameScreen from './src/pages/GameScreen';
-import FinalScreen from "./src/pages/FinalScreen";
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 import {Provider} from 'react-redux';
 import store from './src/store/store'
+import ExitHeaderButton from './src/components/ExitHeaderButton';
+import {routes} from "./src/pages/routes";
 
-const MainNavigator = createStackNavigator({
-    InicialScreen: {screen: InicialScreen},
-    ConfigPlayersScreen: {screen: ConfigPlayersScreen},
-    PalpitesScreen: {screen: PalpitesScreen},
-    GameScreen: {screen: GameScreen},
-    FinalScreen: {screen: FinalScreen}
-});
 
+const MainNavigator = createStackNavigator(
+    routes,
+    {
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: 'rgb(58,50,111)',
+            },
+            headerTintColor: '#fff',
+            headerLeft: null,
+            headerRight: <ExitHeaderButton name="sign-out" />
+        },
+    });
 
 const Stack = createAppContainer(MainNavigator);
 

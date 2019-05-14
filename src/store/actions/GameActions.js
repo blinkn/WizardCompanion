@@ -23,3 +23,20 @@ export function finalizarRodada() {
         type: 'FINALIZAR_RODADA'
     };
 }
+
+export function setEtapa(etapa) {
+    /**
+     * etapa = oneof['ConfigPlayers', 'Palpite', 'Game']
+     * */
+    return {
+        type: 'SET_ETAPA',
+        etapa
+    };
+}
+
+export function setState(state){
+    return {
+        type: 'SET_STATE',
+        state
+    }
+}

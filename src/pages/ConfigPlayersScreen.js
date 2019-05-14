@@ -53,9 +53,13 @@ class ConfigPlayersScreen extends Component {
     };
 
     configureAndStartGame = () => {
-        const {navigation} = this.props;
-        navigation.navigate('PalpitesScreen');
+        this.props.dispatch(GameActions.setEtapa('Palpite'));
+        this.props.navigation.navigate('PalpitesScreen');
     };
+
+    componentDidMount() {
+        this.props.dispatch(GameActions.setEtapa('ConfigPlayers'));
+    }
 
     render() {
         const {players} = this.props.game;

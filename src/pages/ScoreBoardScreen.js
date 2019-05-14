@@ -10,7 +10,7 @@ class ScoreBoardScreen extends Component {
         const containerWidth = (Dimensions.get('window').width - 40) / players.length;
         return (
             <ScrollView>
-                <Text fs={24}>Pontuação</Text>
+                <Text fs={18} color="white" center>SCORE</Text>
                 <ScoreView>
                     <>
                         <Group>
@@ -66,6 +66,7 @@ const RodadaContainer = styled.View`
 const PlayerContainerHeader = styled.View`
     width: ${props => props.width || 50};
     border-bottom-width: 1px;
+    border-bottom-color: #665;
     overflow: hidden;
 `;
 

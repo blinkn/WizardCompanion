@@ -6,14 +6,11 @@ import Carousel from "react-native-snap-carousel";
 import * as GameActions from '../store/actions/GameActions';
 import {connect} from "react-redux";
 import ScoreBoardScreen from './ScoreBoardScreen';
+import {BackHandler} from 'react-native';
 
 class PalpitesScreen extends Component {
     static navigationOptions = {
         title: 'Fase de Palpites',
-        headerStyle: {
-            backgroundColor: 'rgb(58,50,111)',
-        },
-        headerTintColor: '#fff'
     };
 
     state = {
@@ -24,7 +21,13 @@ class PalpitesScreen extends Component {
         if(this.props.game.rodada === 0) {
             this.props.dispatch(GameActions.addRodada());
         }
+        BackHandler.addEventListener('hardwareBackPress', () => true);
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', () => true);
+    }
+
 
     goToGameScreen = () => {
         this.props.navigation.navigate('GameScreen');

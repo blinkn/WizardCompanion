@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, Dimensions, ScrollView, StatusBar, TouchableOpacity, View} from "react-native";
+import {Alert, BackHandler, Dimensions, ScrollView, StatusBar, TouchableOpacity, View} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel from "react-native-snap-carousel";
 import ScoreBoardScreen from './ScoreBoardScreen';
@@ -12,10 +12,6 @@ class GameScreen extends Component {
 
     static navigationOptions = {
         title: 'Fase de Jogo',
-        headerStyle: {
-            backgroundColor: 'rgb(58, 50, 111)'
-        },
-        headerTintColor: '#fff'
     };
 
     state = {
@@ -64,6 +60,15 @@ class GameScreen extends Component {
 
     };
 
+    componentDidMount() {
+        this.props.dispatch(GameActions.setEtapa('Game'));
+        BackHandler.addEventListener('hardwareBackPress', () => true);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', () => true);
+    }
+
     renderGameScreen = () => {
         const {game: {players, rodada}} = this.props;
         return (
@@ -107,9 +112,6 @@ class GameScreen extends Component {
                 </ScrollView>
                 <Button onPress={() => this.finalizaRodada()}>
                     <Text color="#050" bold fs={14}>FINALIZAR RODADA</Text>
-                </Button>
-                <Button onPress={() => console.log(store.getState())}>
-                    <Text color="#050" bold fs={14}>STORE</Text>
                 </Button>
             </>
         )

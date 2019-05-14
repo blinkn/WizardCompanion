@@ -1,7 +1,10 @@
+import db from '../../db/db';
+
 const INITIAL_STATE = {
     players: [],
     rodada: 0,
     rodadaDetails: [],
+    etapa: ''
 };
 
 export function gameReducer(state = INITIAL_STATE, action) {
@@ -10,15 +13,18 @@ export function gameReducer(state = INITIAL_STATE, action) {
     switch(action.type) {
         case 'ADD_RODADA':
             newState.rodada += 1;
-            return newState;
+            db.saveState(newState);
+            break;
         case 'ADD_NEW_PLAYER':
             newState.players.push(action.player);
-            return newState;
+            db.saveState(newState);
+            break;
         case 'UPDATE_PLAYER':
             newState.players = newState.players.map(p => {
                return p.index === action.player.index ? action.player : p;
             });
-            return newState;
+            db.saveState(newState);
+            break;
         case 'FINALIZAR_RODADA':
             const rodadaDetail = {
                 rodada: newState.rodada,
@@ -39,7 +45,16 @@ export function gameReducer(state = INITIAL_STATE, action) {
             });
             newState.rodadaDetails = [...newState.rodadaDetails, rodadaDetail];
             newState.rodada += 1;
-            return newState;
+            newState.etapa = 'Palpite'; // Sempre que finaliza uma rodada a etapa volta para os palpites
+            db.saveState(newState);
+            break;
+        case 'SET_ETAPA':
+            newState.etapa = action.etapa;
+            db.saveState(newState);
+            break;
+        case 'SET_STATE':
+            return action.state;
     }
+
     return newState;
 }
