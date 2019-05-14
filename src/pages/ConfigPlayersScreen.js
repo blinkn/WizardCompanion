@@ -18,8 +18,8 @@ class ConfigPlayersScreen extends Component {
             'Informe o nome',
             'Informe o nome do novo jogador:',
             [
-                {text: 'Cancel', onPress: reject, style: 'cancel'},
                 {text: 'OK', onPress: text => resolve(capitalizeFirstLetter(text))},
+                {text: 'Cancel', onPress: reject, style: 'cancel'},
             ],
             {
                 type: 'plain-text',

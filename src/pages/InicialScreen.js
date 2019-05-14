@@ -60,12 +60,12 @@ class InicialScreen extends Component {
                 'Iniciar um novo jogo',
                 'Você possui um jogo em andamento, deseja iniciar um novo jogo mesmo assim?',
                 [
+                    {text: 'Sim', onPress: resolve},
                     {
-                        text: 'Cancel',
+                        text: 'Não',
                         onPress: reject,
                         style: 'cancel',
                     },
-                    {text: 'OK', onPress: resolve},
                 ]
             );
         });
