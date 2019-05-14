@@ -60,12 +60,12 @@ class InicialScreen extends Component {
                 'Iniciar um novo jogo',
                 'Você possui um jogo em andamento, deseja iniciar um novo jogo mesmo assim?',
                 [
-                    {text: 'Sim', onPress: resolve},
                     {
                         text: 'Não',
                         onPress: reject,
                         style: 'cancel',
                     },
+                    {text: 'Sim', onPress: resolve},
                 ]
             );
         });
@@ -122,6 +122,7 @@ const Titulo = styled.Text`
     font-family: 'Satisfy-Regular';
     margin: 100px 0;
     align-self: center;
+    text-align: center;
     flex: 1;
 `;
 

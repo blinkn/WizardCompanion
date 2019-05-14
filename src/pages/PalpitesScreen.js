@@ -116,3 +116,4 @@ class PalpitesScreen extends Component {
 
 const mapStateToProps = (state) => ({game: state});
 export default connect(mapStateToProps)(PalpitesScreen)
+

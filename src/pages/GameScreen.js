@@ -110,9 +110,12 @@ class GameScreen extends Component {
                         )
                     }
                 </ScrollView>
-                <Button onPress={() => this.finalizaRodada()}>
-                    <Text color="#050" bold fs={14}>FINALIZAR RODADA</Text>
-                </Button>
+                {
+                    rodada === this.state.vazasAtribuidas &&
+                    <Button onPress={() => this.finalizaRodada()}>
+                        <Text color="#050" bold fs={14}>FINALIZAR RODADA</Text>
+                    </Button>
+                }
             </>
         )
     };
