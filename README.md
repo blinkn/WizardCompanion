@@ -15,7 +15,7 @@ As regras do jogo podem ser encontradas neste link: [Wizard - Regras](http://www
 
 ## To Dos
 
- - [ ] Contruir tela final que mostra o jogador vencedor;
+ - [ ] Construir tela final que mostra o jogador vencedor;
  - [ ] Testar na plataforma iOS;
  - [ ] Ajustar assets particulares da versão iOS (Icons/Splashscreen/etc)
  - [ ] Publicar na Play Store
