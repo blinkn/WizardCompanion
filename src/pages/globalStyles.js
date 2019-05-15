@@ -56,12 +56,12 @@ export const Text = styled.Text`
     text-align: ${props => props.center ? 'center' : 'left'};
     color: ${props => props.color || '#888'};
     font-weight: ${props => props.bold ? 'bold' : 'normal'};
-    border: ${props => props.debug ? '1px solid red' : '0'}
+    border: ${props => props.debug ? '1px solid red' : '0'};
 `;
 
 export const Card = styled.View`
   min-height: 20px;
-  background-color: ${props => props.color || 'white'}
+  background-color: ${props => props.color || 'white'};
   elevation: 2;
   border-radius: 3px;
   margin: 5px 0;

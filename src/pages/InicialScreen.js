@@ -9,7 +9,6 @@ import {connect} from "react-redux";
 
 class InicialScreen extends Component {
     static navigationOptions = {
-        // headerTitle instead of title
         header: null,
     };
 
@@ -18,40 +17,10 @@ class InicialScreen extends Component {
         continuarJogoVisible: false
     };
 
-    render() {
-        return (
-            <MainContainer>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={this.state.loadingState}>
-                    <AtividadeContainer>
-                        <ActivityIndicator color="white" size="large"/>
-                        <Text>Carregando Jogo Anterior...</Text>
-                    </AtividadeContainer>
-                </Modal>
-                <Titulo style={styles.shadow}>
-                    Wizard Companion
-                </Titulo>
-                <Group vertical>
-                    <Button
-                        onPress={() => this.createNewGame()}>
-                        <ButtonText color="#050">Criar Novo Jogo</ButtonText>
-                    </Button>
-                    {
-                        this.state.continuarJogoVisible &&
-                        <Button onPress={() => this.continueGame()}>
-                            <ButtonText color="blue">Continuar Jogo</ButtonText>
-                        </Button>
-                    }
-                </Group>
-            </MainContainer>
-        );
-    }
 
     async componentWillMount() {
         const state = await db.loadState();
-        this.setState({continuarJogoVisible: state !== undefined});
+        this.setState({continuarJogoVisible: state !== null && state !== [] });
     }
 
     askIfSureNewGame = () => {
@@ -102,6 +71,37 @@ class InicialScreen extends Component {
         this.setState({loadingState});
         this.props.navigation.navigate(screen);
     };
+
+    render() {
+        return (
+            <MainContainer>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.loadingState}>
+                    <AtividadeContainer>
+                        <ActivityIndicator color="white" size="large"/>
+                        <Text>Carregando Jogo Anterior...</Text>
+                    </AtividadeContainer>
+                </Modal>
+                <Titulo style={styles.shadow}>
+                    Wizard Companion
+                </Titulo>
+                <Group vertical>
+                    <Button
+                        onPress={() => this.createNewGame()}>
+                        <ButtonText color="#050">Criar Novo Jogo</ButtonText>
+                    </Button>
+                    {
+                        this.state.continuarJogoVisible &&
+                        <Button onPress={() => this.continueGame()}>
+                            <ButtonText color="blue">Continuar Jogo</ButtonText>
+                        </Button>
+                    }
+                </Group>
+            </MainContainer>
+        );
+    }
 }
 
 export default connect()(InicialScreen);

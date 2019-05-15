@@ -11,7 +11,7 @@ export default class db {
             const state = await AsyncStorage.getItem('state');
             return JSON.parse(state);
         } catch (e) {
-            return undefined;
+            return null;
         }
     }
 
