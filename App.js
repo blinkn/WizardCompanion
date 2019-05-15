@@ -29,7 +29,7 @@ export default class App extends Component {
             <>
                 <Provider store={store}>
                     <StatusBar translucent={true} backgroundColor="rgba(0,0,0,.2)" barStyle="light-content"/>
-                    <Stack persistencKey={"screen"}/>
+                    <Stack />
                 </Provider>
             </>
         )
